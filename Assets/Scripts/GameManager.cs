@@ -1,6 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour {
 
 	void SetCurrentPrompt() {
 		// Get random number from 0 to remaningPrompts length
-		int randomIndex = Random.Range(0, remainingPrompts.Count);
+		int randomIndex = UnityEngine.Random.Range(0, remainingPrompts.Count);
 
 		// Set currentPrompt using the random index
 		currentPrompt = remainingPrompts[randomIndex];
@@ -57,20 +58,15 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public void UserEnteredWord() {
-		// Correct answer (needs work)
+		// If the input test is and answer we'll get the index in the array
+		// Otherwise we get -1
+		int index = Array.IndexOf(currentPrompt.answers, inputText.text);
+		
+		// Correct answer (needs work) - This could also be index >= 0
 		if (currentPrompt.answers.Contains(inputText.text)) {
 			Debug.Log("Correct answer!" + inputText.text);
-			// Find the term with that text
-			
-			// TODO: Make this better
-			// Go through terms
-			for (int i = 0; i < termsText.Count(); i++) {
-				// If we found the right one
-				if (termsText[i].text == inputText.text) {
-					// Set color to black
-					termsText[i].color = Color.black;
-				}
-			}
+			// Set the color of the text in the box black	
+			termsText[index].color = Color.black;
 		} else {
 			// Wrong answer
 			Debug.Log("User input: " + inputText.text);
